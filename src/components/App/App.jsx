@@ -42,7 +42,6 @@ export const App = () => {
   };
 
   useEffect(() => {
-    console.log('isFirstRender: ', isFirstRender.current);
     if (isFirstRender.current < 2) {
       isFirstRender.current += 1;
       return;
@@ -52,7 +51,6 @@ export const App = () => {
   }, [contacts]);
 
   useEffect(() => {
-    console.log('did mount');
     let cnt = JSON.parse(localStorage.getItem('contacts'));
 
     if (cnt === null) cnt = [];
