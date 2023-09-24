@@ -6,10 +6,12 @@ import { Filter } from 'components/Filter/Filter';
 import { ContactsList } from 'components/ContactsList/ContactsList';
 
 export const App = () => {
-  const [contacts, setContacts] = useState([]);
+  const [contacts, setContacts] = useState(
+    JSON.parse(localStorage.getItem('contacts')) ?? []
+  );
   const [filter, setFilter] = useState('');
 
-  let f = true;
+  // let f = true;
 
   const AddContact = (name, number, id) => {
     if (
@@ -42,20 +44,16 @@ export const App = () => {
   };
 
   useEffect(() => {
-    if (f) {
-      f = false;
-      return;
-    }
     localStorage.setItem('contacts', JSON.stringify(contacts));
   }, [contacts]);
 
-  useEffect(() => {
-    console.log('useEffect with []');
-    let cnt = JSON.parse(localStorage.getItem('contacts'));
+  // useEffect(() => {
+  //   console.log('useEffect with []');
+  //   let cnt = JSON.parse(localStorage.getItem('contacts'));
 
-    if (cnt === null) cnt = [];
-    setContacts(cnt);
-  }, []);
+  //   if (cnt === null) cnt = [];
+  //   setContacts(cnt);
+  // }, []);
 
   return (
     <Сentralizer>
