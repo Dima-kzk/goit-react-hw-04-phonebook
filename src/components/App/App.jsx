@@ -9,6 +9,8 @@ export const App = () => {
   const [contacts, setContacts] = useState([]);
   const [filter, setFilter] = useState('');
 
+  let f = true;
+
   const AddContact = (name, number, id) => {
     if (
       contacts.some(e => {
@@ -22,9 +24,6 @@ export const App = () => {
   };
 
   const deleteContact = id => {
-    // this.setState(prevState => ({
-    //   contacts: prevState.contacts.filter(contact => contact.id !== id),
-    // }));
     setContacts(prevState => prevState.filter(contact => contact.id !== id));
   };
 
@@ -35,7 +34,6 @@ export const App = () => {
   };
 
   const filterByName = () => {
-    // const { contacts, filter } = this.state;
     return filter
       ? contacts.filter(({ name }) =>
           name.toLowerCase().includes(filter.toLowerCase())
@@ -44,11 +42,17 @@ export const App = () => {
   };
 
   useEffect(() => {
+    if (f) {
+      f = false;
+      return;
+    }
     localStorage.setItem('contacts', JSON.stringify(contacts));
   }, [contacts]);
 
   useEffect(() => {
+    console.log('useEffect with []');
     let cnt = JSON.parse(localStorage.getItem('contacts'));
+
     if (cnt === null) cnt = [];
     setContacts(cnt);
   }, []);
