@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Сentralizer } from './App.styled';
 import { Section } from 'components/Section/Section';
 import { AddContactForm } from 'components/AddContactForm/AddContactForm';
@@ -6,12 +6,10 @@ import { Filter } from 'components/Filter/Filter';
 import { ContactsList } from 'components/ContactsList/ContactsList';
 
 export const App = () => {
-  const [contacts, setContacts] = useState(
-    JSON.parse(localStorage.getItem('contacts')) ?? []
-  );
+  const [contacts, setContacts] = useState([]);
   const [filter, setFilter] = useState('');
 
-  // let f = true;
+  const isFirstRender = useRef(0);
 
   const AddContact = (name, number, id) => {
     if (
@@ -44,16 +42,22 @@ export const App = () => {
   };
 
   useEffect(() => {
+    console.log('isFirstRender: ', isFirstRender.current);
+    if (isFirstRender.current < 2) {
+      isFirstRender.current += 1;
+      return;
+    }
+
     localStorage.setItem('contacts', JSON.stringify(contacts));
   }, [contacts]);
 
-  // useEffect(() => {
-  //   console.log('useEffect with []');
-  //   let cnt = JSON.parse(localStorage.getItem('contacts'));
+  useEffect(() => {
+    console.log('did mount');
+    let cnt = JSON.parse(localStorage.getItem('contacts'));
 
-  //   if (cnt === null) cnt = [];
-  //   setContacts(cnt);
-  // }, []);
+    if (cnt === null) cnt = [];
+    setContacts(cnt);
+  }, []);
 
   return (
     <Сentralizer>
